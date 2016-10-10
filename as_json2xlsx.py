@@ -48,8 +48,6 @@ def save_json_to_xlsx(content, header, xlsx_filename):
 
 def save_xlsx_to_as(xlsx_filename, as_filename):
 
-    print xlsx_filename
-    print os.getcwd()
     wb = openpyxl.load_workbook(filename=xlsx_filename, data_only=True, read_only=True)
     ws = wb.get_sheet_by_name(wb.get_sheet_names()[0])
 
@@ -94,7 +92,7 @@ if __name__ == '__main__':
 
     args = get_params()
 
-    os.chdir(os.path.dirname(os.path.abspath(args.file)))
+    # os.chdir(os.path.dirname(os.path.abspath(args.file)))
     # print os.path.abspath(os.curdir)
 
     if args.file.endswith(".as"):
@@ -104,15 +102,15 @@ if __name__ == '__main__':
             header_part = as_file_content.split(" = ")[0]
             json_part = as_file_content[len(header_part) + 3:-1]  # -1 to omit the ending ;
             json = demjson.decode(json_part.encode('utf-8'))
-
         xlsx_filename = args.file.replace('.as', '_' + timestamp() + '.xlsx')
-        print "Saving XLSX..."
         save_json_to_xlsx(json, header_part, xlsx_filename)
+        print ".XLSX saved: " + os.path.abspath(xlsx_filename)
 
     elif args.file.endswith(".xlsx"):
         print "Parsing", args.file
         as_filename = args.file.replace('.xlsx', '.as')
-        save_xlsx_to_as(os.path.abspath(args.file), as_filename)
+        save_xlsx_to_as(args.file, as_filename)
+        print ".AS saved: " + os.path.abspath(as_filename)
 
     else:
         sys.exit("Unknown file format. Requires an XLSX or AS file.")
