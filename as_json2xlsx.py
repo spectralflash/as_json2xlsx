@@ -48,6 +48,7 @@ def save_json_to_xlsx(content, header, xlsx_filename):
 
 def save_xlsx_to_as(xlsx_filename, as_filename):
 
+    print xlsx_filename
     wb = openpyxl.load_workbook(filename=xlsx_filename, data_only=True, read_only=True)
     ws = wb.get_sheet_by_name(wb.get_sheet_names()[0])
 
